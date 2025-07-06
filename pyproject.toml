@@ -32,6 +32,8 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.9, <4.0"
 click-logging = "^1.0.1"
+requests = ">=2.32.4"
+urllib3 = ">=2.5.0"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
@@ -68,7 +70,7 @@ profile = "black"
 src_paths = ["src", "tests"]
 
 [tool.black]
-target-version = ["py39"]
+target-version = ["py310"]
 include = '\.pyi?$'
 
 [tool.pytest.ini_options]
