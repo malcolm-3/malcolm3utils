@@ -1,0 +1,4 @@
+diff a/src/malcolm3utils/__init__.py b/src/malcolm3utils/__init__.py	(rejected hunks)
+@@ -0,0 +1 @@
++__version__ = "0.0.1"
+\ No newline at end of file

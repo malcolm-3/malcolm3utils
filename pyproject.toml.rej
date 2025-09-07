@@ -1,0 +1,49 @@
+diff a/pyproject.toml b/pyproject.toml	(rejected hunks)
+@@ -18,8 +18,6 @@ classifiers = [
+   "Operating System :: OS Independent",
+   "Programming Language :: Python",
+   "Programming Language :: Python :: 3",
+-  "Programming Language :: Python :: 3.8",
+-  "Programming Language :: Python :: 3.9",
+   "Programming Language :: Python :: 3.10",
+   "Programming Language :: Python :: 3.11",
+   "Programming Language :: Python :: 3.12",
+@@ -32,7 +30,7 @@ packages = [
+ ]
+ 
+ [tool.poetry.dependencies]
+-python = ">=3.8.1, <4.0"
++python = ">=3.10.1, <4.0"
+ 
+ [tool.poetry.group.dev.dependencies]
+ mkdocstrings = {version = ">=0.23", extras = ["python"]}
+@@ -45,13 +43,14 @@ pytest-github-actions-annotate-failures = "*"
+ pytest-cov = "*"
+ python-kacl = "*"
+ ruff = ">=0.2.0"
++poetry-bumpversion = "^0.3.3"
+ 
+ [build-system]
+ requires = ["poetry-core>=1.0.0"]
+ build-backend = "poetry.core.masonry.api"
+ 
+ [tool.ruff]
+-target-version = "py38" # The lowest supported version
++target-version = "py310" # The lowest supported version
+ 
+ [tool.ruff.lint]
+ # By default, enable all the lint rules.
+@@ -101,6 +100,13 @@ exclude_lines = [
+ # Avoid changing this!
+ strict = true  # See all the enabled flags `mypy --help | grep -A 10 'Strict mode'`
+ disallow_any_unimported = true
++exclude = 'venv/'
++
++[tool.poetry_bumpversion.file."src/malcolm3utils/__init__.py"]
++
++[tool.poetry_bumpversion.file."mkdocs.yml"]
++search = 'site_name: "Malcolm3Utils v{current_version}"'
++replace = 'site_name: "Malcolm3Utils v{new_version}"'
+ 
+ # If you need to ignore something for some specific module,
+ # add overrides for them. Avoid changing the global config!

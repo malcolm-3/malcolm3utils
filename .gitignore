@@ -85,3 +85,6 @@ venv.bak/
 
 # IDEs
 .idea/
+
+# Emacs
+*~

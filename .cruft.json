@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/malcolm-3/malcolm-3-python-package-cookiecutter",
-  "commit": "3ac45da2bde55d7d1f691a8d4984f59e8cd2b3af",
+  "commit": "aa29fd9aa70aa96a02e10e673da4333df2e4df7e",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -11,7 +11,8 @@
       "project_slug": "malcolm3utils",
       "package_name": "malcolm3utils",
       "project_short_description": "Small packages and scripts I have found useful",
-      "_template": "https://github.com/malcolm-3/malcolm-3-python-package-cookiecutter"
+      "_template": "https://github.com/malcolm-3/malcolm-3-python-package-cookiecutter",
+      "_commit": "aa29fd9aa70aa96a02e10e673da4333df2e4df7e"
     }
   },
   "directory": null
