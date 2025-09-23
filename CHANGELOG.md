@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- updated package requirements
+
 ## [0.5.7] - 2025-07-06
 
 ### Fixed
