@@ -142,10 +142,7 @@ class FilterParser(Transformer):
 
     def number(self, value):  # type: ignore[no-untyped-def]
         logger.debug("Number: %s", value)
-        try:
-            return lambda d: int(value.value)
-        except ValueError:
-            return lambda d: float(value.value)
+        return lambda d: to_number_or_string(value)
 
     def strlit(self, v):  # type: ignore[no-untyped-def]
         logger.debug("String: %s", v)

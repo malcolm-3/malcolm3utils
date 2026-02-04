@@ -99,7 +99,7 @@ def cli(  # noqa: C901
     fieldnames = []
     output_fh = None
     try:
-        if output is None:
+        if output is None:  # pragma: no cover
             output_fh = sys.stdout
         else:
             output_fh = open(str(output), "w")
@@ -114,7 +114,7 @@ def cli(  # noqa: C901
                         [x for x in reader.fieldnames if x not in fieldnames]
                     )
                 readers.append(reader)
-        else:
+        else:  # pragma: no cover
             input_fh = sys.stdin
             input_fhs.append(input_fh)
             reader = DictReader(input_fh)

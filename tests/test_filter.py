@@ -55,6 +55,21 @@ EXPRESSION_TESTS = [
         "expected_result": True,
     },
     {
+        "title": "testing string substitution",
+        "filter_expression": "S == 'a'",
+        "expected_result": True,
+    },
+    {
+        "title": "testing string concatenation",
+        "filter_expression": "S + S == 'aa'",
+        "expected_result": True,
+    },
+    {
+        "title": "testing arbitrary object to string literal comparison",
+        "filter_expression": "L == '[]'",
+        "expected_result": True,
+    },
+    {
         "title": "testing basic comparison",
         "filter_expression": "1 == 1",
         "expected_result": True,
@@ -71,7 +86,7 @@ EXPRESSION_TESTS = [
     },
     {
         "title": "testing basic math expressions 1",
-        "filter_expression": "1 + 2 * 3 + ( 4 + 5 ) / 3 == 5 + 5",
+        "filter_expression": "1 + 2 * 3 + ( 4 + 5 ) / 3  == 5 + 5",
         "expected_result": True,
     },
     {
@@ -124,11 +139,86 @@ EXPRESSION_TESTS = [
         "filter_expression": 'A + B == E or A + "C and D" == E and 2 == B',
         "expected_result": True,
     },
+    {
+        "title": "testing numerical result 1",
+        "filter_expression": '1',
+        "expected_result": True,
+    },
+    {
+        "title": "testing numerical result 2",
+        "filter_expression": '0',
+        "expected_result": False,
+    },
+    {
+        "title": "testing inequality",
+        "filter_expression": '0 != 1',
+        "expected_result": True,
+    },
+    {
+        "title": "testing greater than",
+        "filter_expression": '1 > 1',
+        "expected_result": False,
+    },
+    {
+        "title": "testing greater than or equal to",
+        "filter_expression": '1 >= 1',
+        "expected_result": True,
+    },
+    {
+        "title": "testing less than",
+        "filter_expression": '1 < 1',
+        "expected_result": False,
+    },
+    {
+        "title": "testing less than or equal to",
+        "filter_expression": '1 <= 1',
+        "expected_result": True,
+    },
+    {
+        "title": "testing add",
+        "filter_expression": '1 + 1 == 2',
+        "expected_result": True,
+    },
+    {
+        "title": "testing sub",
+        "filter_expression": '1 - 1 == 0',
+        "expected_result": True,
+    },
+    {
+        "title": "testing mul",
+        "filter_expression": '2 * 2 == 4',
+        "expected_result": True,
+    },
+    {
+        "title": "testing div",
+        "filter_expression": '4 / 2 == 2',
+        "expected_result": True,
+    },
+    {
+        "title": "testing floordiv",
+        "filter_expression": '5 // 2 == 2',
+        "expected_result": True,
+    },
+    {
+        "title": "testing mod",
+        "filter_expression": '7 % 5 == 2',
+        "expected_result": True,
+    },
+    {
+        "title": "testing neg",
+        "filter_expression": '-A + 1 == 0',
+        "expected_result": True,
+    },
+    {
+        "title": "testing floats",
+        "filter_expression": '1.5 + 1.5 == 3' ,
+        "expected_result": True,
+    },
 ]
 
 
 def test_filter_parser():
-    data = {"A": 1, "B": 2, "C and D": 3, "E": 4}
+    data = {"A": 1, "B": 2, "C and D": 3, "E": 4, "S": "a", "L": []}
 
     for expression_test in EXPRESSION_TESTS:
         filter_fucntion = create_filter(expression_test["filter_expression"])
