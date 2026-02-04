@@ -1,2 +1,2 @@
-__version__ = "0.5.7"
+__version__ = "0.6.0"
 __version_message__ = "%(prog)s, malcolm3utils version %(version)s"

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-02-04
+
 ### Fixed
 
 - updated package requirements
@@ -148,7 +150,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - script to touch (and create if necessary) a file
     with its modification date set to the latest date found in the specified dicrectories
 
-[Unreleased]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.7...master
+[Unreleased]: https://github.com/malcolm-3/malcolm3utils/compare/0.6.0...master
+[0.6.0]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.7...0.6.0
 [0.5.7]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.6...0.5.7
 [0.5.6]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.5...0.5.6
 [0.5.5]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.4...0.5.5
