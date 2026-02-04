@@ -83,7 +83,6 @@ pythonpath = [
 ]
 addopts = """\
     --cov malcolm3utils \
-    --cov tests \
     --cov-report term-missing \
     --no-cov-on-fail \
 """

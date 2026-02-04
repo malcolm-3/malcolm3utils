@@ -7,6 +7,8 @@ from click.testing import CliRunner
 from malcolm3utils.scripts.filter import cli
 from malcolm3utils.utils.filter_parser import create_filter
 
+from .fixtures import tmp_csv_files
+
 logger = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG)
 
