@@ -34,6 +34,7 @@ This package provides the following command line tools
   - A tool for extracting columns of data by column header name or column id
 - ``merge``
   - A version of the ``join`` command that doesn't require pre-sorting
+- ``filter``
 
 ## Development
 
