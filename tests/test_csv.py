@@ -2,6 +2,8 @@ import os
 
 from malcolm3utils.utils.csv import read_csv_data, read_keyed_csv_data
 
+from .fixtures import tmp_csv_files
+
 
 def test_csv(tmp_csv_files):
     tmpdir = tmp_csv_files[0].parent
