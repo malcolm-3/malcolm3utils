@@ -19,17 +19,17 @@ def tmp_file(tmp_path: Path) -> Path:
 
 
 TEST_INPUTS = {
-    "file1.csv": """A,B,C and D,E,S
-111,112,113,114,a
-121,122,123,124,b
+    "file1.csv": """A,B,C and D,E,S,X
+111,112,113,114,a,True
+121,122,123,124,b,False
 """,
-    "file2.csv": """A,B,C and D,E,S
-211,212,213,214,c
-221,222,223,224,d
+    "file2.csv": """A,B,C and D,E,S,X
+211,212,213,214,c,True
+221,222,223,224,d,False
 """,
-    "file3.csv": """A,B,C and D,F,S
-311,312,313,314,e
-321.1,322,323,324,f
+    "file3.csv": """A,B,C and D,F,S,X
+311,312,313,314,e,True
+321.1,322,323,324,f,False
 """,
 }
 

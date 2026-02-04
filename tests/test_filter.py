@@ -7,8 +7,6 @@ from click.testing import CliRunner
 from malcolm3utils.scripts.filter import cli
 from malcolm3utils.utils.filter_parser import create_filter
 
-from .fixtures import tmp_csv_files
-
 logger = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG)
 
@@ -141,77 +139,77 @@ EXPRESSION_TESTS = [
     },
     {
         "title": "testing numerical result 1",
-        "filter_expression": '1',
+        "filter_expression": "1",
         "expected_result": True,
     },
     {
         "title": "testing numerical result 2",
-        "filter_expression": '0',
+        "filter_expression": "0",
         "expected_result": False,
     },
     {
         "title": "testing inequality",
-        "filter_expression": '0 != 1',
+        "filter_expression": "0 != 1",
         "expected_result": True,
     },
     {
         "title": "testing greater than",
-        "filter_expression": '1 > 1',
+        "filter_expression": "1 > 1",
         "expected_result": False,
     },
     {
         "title": "testing greater than or equal to",
-        "filter_expression": '1 >= 1',
+        "filter_expression": "1 >= 1",
         "expected_result": True,
     },
     {
         "title": "testing less than",
-        "filter_expression": '1 < 1',
+        "filter_expression": "1 < 1",
         "expected_result": False,
     },
     {
         "title": "testing less than or equal to",
-        "filter_expression": '1 <= 1',
+        "filter_expression": "1 <= 1",
         "expected_result": True,
     },
     {
         "title": "testing add",
-        "filter_expression": '1 + 1 == 2',
+        "filter_expression": "1 + 1 == 2",
         "expected_result": True,
     },
     {
         "title": "testing sub",
-        "filter_expression": '1 - 1 == 0',
+        "filter_expression": "1 - 1 == 0",
         "expected_result": True,
     },
     {
         "title": "testing mul",
-        "filter_expression": '2 * 2 == 4',
+        "filter_expression": "2 * 2 == 4",
         "expected_result": True,
     },
     {
         "title": "testing div",
-        "filter_expression": '4 / 2 == 2',
+        "filter_expression": "4 / 2 == 2",
         "expected_result": True,
     },
     {
         "title": "testing floordiv",
-        "filter_expression": '5 // 2 == 2',
+        "filter_expression": "5 // 2 == 2",
         "expected_result": True,
     },
     {
         "title": "testing mod",
-        "filter_expression": '7 % 5 == 2',
+        "filter_expression": "7 % 5 == 2",
         "expected_result": True,
     },
     {
         "title": "testing neg",
-        "filter_expression": '-A + 1 == 0',
+        "filter_expression": "-A + 1 == 0",
         "expected_result": True,
     },
     {
         "title": "testing floats",
-        "filter_expression": '1.5 + 1.5 == 3' ,
+        "filter_expression": "1.5 + 1.5 == 3",
         "expected_result": True,
     },
 ]

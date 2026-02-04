@@ -12,7 +12,7 @@ def read_keyed_csv_data(
     keyfield: str,
     skiprows: list[int] | int | Callable[[Hashable], bool] | None = None,
     multiple: bool = False,
-) -> dict[str, dict[str, Any]] | dict[str, list[dict[str, Any]]]:
+) -> dict[Any, dict[str, Any]] | dict[Any, list[dict[str, Any]]]:
     """
     Instead of using DictReader which imports all values as strings,
     we use pandas.read_csv which handles all of the data conversion
