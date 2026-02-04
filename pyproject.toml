@@ -80,12 +80,12 @@ include = '\.pyi?$'
 pythonpath = [
     "src"
 ]
-#addopts = """\
-#    --cov malcolm3utils \
-#    --cov tests \
-#    --cov-report term-missing \
-#    --no-cov-on-fail \
-#"""
+addopts = """\
+    --cov malcolm3utils \
+    --cov tests \
+    --cov-report term-missing \
+    --no-cov-on-fail \
+"""
 
 [tool.coverage.report]
 fail_under = 100
