@@ -1,24 +1,11 @@
-import os
 from pathlib import Path
 
-import pytest
 from click.testing import CliRunner
 
+from fixtures import TEST_INPUT, tmp_file
 from malcolm3utils.scripts.getcol import getcol
 
 from .utils import os_independent_text_equals
-
-TEST_INPUT = """A\tB\tC\tD
-1\t2\t3\t4
-"""
-
-
-@pytest.fixture
-def tmp_file(tmp_path: Path) -> Path:
-    f_path = tmp_path.joinpath("test.csv")
-    with open(os.path.join(f_path), "w") as fh:
-        fh.write(TEST_INPUT)
-    return f_path
 
 
 def test_getcol(tmp_file: Path) -> None:
