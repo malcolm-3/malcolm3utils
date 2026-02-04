@@ -35,7 +35,7 @@ This package provides the following command line tools
 - ``merge``
   - A version of the ``join`` command that doesn't require pre-sorting
 - ``filter``
-  - Filter csv files using expressions containing the column headers 
+  - Filter csv files using expressions containing the column headers
 
 ## Development
 

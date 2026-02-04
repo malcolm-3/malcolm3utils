@@ -19,18 +19,15 @@ def tmp_file(tmp_path: Path) -> Path:
 
 
 TEST_INPUTS = {
-    'file1.csv':
-        """A,B,C and D,E
+    "file1.csv": """A,B,C and D,E
 111,112,113,114
 121,122,123,124
 """,
-    'file2.csv':
-        """A,B,C and D,E
+    "file2.csv": """A,B,C and D,E
 211,212,213,214
 221,222,223,224
 """,
-    'file3.csv':
-        """A,B,C and D,F
+    "file3.csv": """A,B,C and D,F
 311,312,313,314
 321,322,323,324
 """,
@@ -51,7 +48,7 @@ def tmp_csv_files(tmp_path: Path) -> list[Path]:
 @pytest.fixture
 def tmp_csv_dicts() -> list[list[dict[str, int]]]:
     tmp_dict_list: list[list[dict[str, int]]] = []
-    for fname, content in TEST_INPUTS.items():
+    for content in TEST_INPUTS.values():
         reader = DictReader(io.StringIO(content))
         data = []
         for row in reader:

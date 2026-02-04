@@ -1,7 +1,8 @@
 import logging
 import sys
 from csv import DictReader, DictWriter
-from typing import Tuple
+from io import TextIOWrapper
+from typing import Any, TextIO, Tuple
 
 import click
 import click_logging
@@ -10,6 +11,7 @@ from malcolm3utils import __version__, __version_message__
 from malcolm3utils.utils.filter_parser import create_filter
 
 logger = logging.getLogger()
+
 
 @click.command(
     "csv-filter",
@@ -41,28 +43,28 @@ logger = logging.getLogger()
     To achieve this all csv_files are opened at program initiation.
     This may cause problems with your system's open file limit if
     you are attempting to filter a large number of files at once.
-    """
+    """,
 )
 @click.argument(
-    'filter_expression',
+    "filter_expression",
     type=str,
     required=True,
 )
 @click.argument(
-    'csv_files',
+    "csv_files",
     type=click.Path(exists=True),
     nargs=-1,
-    metavar='csv_file',
+    metavar="csv_file",
     required=False,
 )
 @click.option(
-    '--keep/--discard',
+    "--keep/--discard",
     is_flag=True,
     help="keep or discard entries for which the expression is true (default=keep)",
     default=True,
 )
 @click.option(
-    '--output',
+    "--output",
     type=click.Path(exists=False),
     help="output file name",
 )
@@ -80,13 +82,13 @@ logger = logging.getLogger()
 )
 @click.version_option(__version__, message=__version_message__)
 @click_logging.simple_verbosity_option(logger)
-def cli(
-        filter_expression: str,
-        csv_files: Tuple[click.Path, ...] = tuple(),
-        keep: bool = True,
-        output: click.Path | None = None,
-        delimiter: str = ',',
-        output_delimiter: str | None = None,
+def cli(  # noqa: C901
+    filter_expression: str,
+    csv_files: Tuple[click.Path, ...] = (),
+    keep: bool = True,
+    output: click.Path | None = None,
+    delimiter: str = ",",
+    output_delimiter: str | None = None,
 ) -> None:
 
     if output_delimiter is None:
@@ -100,28 +102,34 @@ def cli(
         if output is None:
             output_fh = sys.stdout
         else:
-            output_fh = open(str(output), 'w')
+            output_fh = open(str(output), "w")
 
         if csv_files:
             for csv_file in csv_files:
-                input_fh = open(str(csv_file), "r")
+                input_fh: TextIOWrapper[Any] | TextIO | Any = open(str(csv_file))
                 input_fhs.append(input_fh)
                 reader = DictReader(input_fh, delimiter=delimiter)
-                fieldnames.extend([x for x in reader.fieldnames if x not in fieldnames])
+                if reader.fieldnames is not None:
+                    fieldnames.extend(
+                        [x for x in reader.fieldnames if x not in fieldnames]
+                    )
                 readers.append(reader)
         else:
             input_fh = sys.stdin
             input_fhs.append(input_fh)
             reader = DictReader(input_fh)
-            fieldnames.extend(reader.fieldnames)
+            if reader.fieldnames is not None:
+                fieldnames.extend(reader.fieldnames)
             readers.append(reader)
 
-        writer = DictWriter(output_fh, fieldnames=fieldnames, delimiter=output_delimiter)
+        writer = DictWriter(
+            output_fh, fieldnames=fieldnames, delimiter=output_delimiter
+        )
         writer.writeheader()
 
         for reader in readers:
             for row in reader:
-                if retval := filter_function(row) == keep:
+                if filter_function(row) == keep:
                     writer.writerow(row)
 
     finally:

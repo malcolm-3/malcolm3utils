@@ -2,7 +2,7 @@ from pathlib import Path
 
 from click.testing import CliRunner
 
-from fixtures import TEST_INPUT, tmp_file
+from fixtures import TEST_INPUT
 from malcolm3utils.scripts.getcol import getcol
 
 from .utils import os_independent_text_equals

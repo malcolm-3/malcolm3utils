@@ -63,6 +63,7 @@ python-kacl = "*"
 pyupgrade = "*"
 tryceratops = "*"
 setuptools = "*"
+pandas-stubs = "^3.0.0.260204"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -104,6 +105,10 @@ warn_redundant_casts = true
 warn_return_any = true
 check_untyped_defs = true
 show_error_codes = true
+exclude = [
+  "tests",
+  "venv",
+]
 
 [[tool.mypy.overrides]]
 module = "click_logging"

@@ -1,6 +1,4 @@
-import logging
-from collections import defaultdict
-
+import logging  # noqa: A005
 from pathlib import Path
 from typing import Any, Callable, Hashable
 
@@ -10,11 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 def read_keyed_csv_data(
-        csv_file: Path,
-        keyfield: str,
-        skiprows: list[int] | int | Callable[[Hashable], bool] | None=None,
-        multiple: bool = False,
-) -> dict[str, dict[str, Any]]:
+    csv_file: Path,
+    keyfield: str,
+    skiprows: list[int] | int | Callable[[Hashable], bool] | None = None,
+    multiple: bool = False,
+) -> dict[str, dict[str, Any]] | dict[str, list[dict[str, Any]]]:
     """
     Instead of using DictReader which imports all values as strings,
     we use pandas.read_csv which handles all of the data conversion
@@ -41,7 +39,7 @@ def read_keyed_csv_data(
     :param multiple: indicates there may be multiple rows for each key
     """
     if multiple:
-        result = {}
+        result: dict[str, list[dict[str, Any]]] = {}
         for entry in read_csv_data(csv_file, skiprows=skiprows):
             key = entry[keyfield]
             if key not in result:
@@ -49,12 +47,12 @@ def read_keyed_csv_data(
             result[key].append(entry)
         return result
     else:
-        return {x[keyfield]: x for x in  read_csv_data(csv_file)}
+        return {x[keyfield]: x for x in read_csv_data(csv_file)}
 
 
 def read_csv_data(
-        csv_file: Path,
-        skiprows: list[int] | int | Callable[[Hashable], bool] | None=None,
+    csv_file: Path,
+    skiprows: list[int] | int | Callable[[Hashable], bool] | None = None,
 ) -> list[dict[str, Any]]:
     """
     Use Pandas to read a CSV into a simple list of dictionaries.
@@ -74,6 +72,6 @@ def read_csv_data(
     """
     logger.debug('...............reading CSV data from "%s"', csv_file)
     pandas_csv_data = pd.read_csv(str(csv_file), skiprows=skiprows)
-    for key in pandas_csv_data.select_dtypes('bool').keys():
+    for key in pandas_csv_data.select_dtypes("bool").keys():
         pandas_csv_data[key] = pandas_csv_data[key].astype(int)
     return list(pandas_csv_data.transpose().to_dict().values())

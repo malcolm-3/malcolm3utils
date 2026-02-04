@@ -14,8 +14,7 @@ logger = logging.getLogger(__name__)
 click_logging.basic_config(logger)
 
 
-@click.command(
-    help="""
+@click.command(help="""
 Merge the specified delimited files with column headings, joining entries with
 the same key field value.
 
@@ -34,8 +33,7 @@ header will be the header from the first file.
 If -k is used to specify alternative keys columns for subsequent files, but
 those files have a column with the same name as the output key column, that
 will be ignored.
-"""
-)
+""")
 @click_logging.simple_verbosity_option(logger)
 @click.option(
     "-d", "--delimiter", type=str, help="column delimiter (default=TAB)", default="\t"

@@ -10,16 +10,14 @@ import click
 from .. import __version__, __version_message__
 
 
-@click.command(
-    help="""
+@click.command(help="""
 Read the specified file and write out just the specified columns to stdout.
 
 The column_spec is a comma separated list of column headers, column indexes (one-based),
 or column ranges (e.g. 4-6 for columns 4 through 6 inclusive).
 
 If no file_to_read is specified, then input is read from stdin.
-"""
-)
+""")
 @click.option(
     "-d", "--delimiter", type=str, help="column delimiter (default=TAB)", default="\t"
 )

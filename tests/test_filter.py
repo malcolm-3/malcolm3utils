@@ -1,4 +1,3 @@
-import io
 import logging
 import os
 from csv import DictReader
@@ -7,8 +6,6 @@ from click.testing import CliRunner
 
 from malcolm3utils.scripts.filter import cli
 from malcolm3utils.utils.filter_parser import create_filter
-
-from fixtures import tmp_csv_files
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG)
@@ -51,95 +48,94 @@ Options:
 
 EXPRESSION_TESTS = [
     {
-        'title': 'testing string comparison',
-        'filter_expression': "'test' == 'test'",
-        'expected_result': True,
-
+        "title": "testing string comparison",
+        "filter_expression": "'test' == 'test'",
+        "expected_result": True,
     },
     {
-        'title': 'testing basic comparison',
-        'filter_expression': '1 == 1',
-        'expected_result': True,
+        "title": "testing basic comparison",
+        "filter_expression": "1 == 1",
+        "expected_result": True,
     },
     {
-        'title': 'testing basic or',
-        'filter_expression': '1 == 1 or 1 == 2',
-        'expected_result': True,
+        "title": "testing basic or",
+        "filter_expression": "1 == 1 or 1 == 2",
+        "expected_result": True,
     },
     {
-        'title': 'testing math precedence 1',
-        'filter_expression': '1 + 2 * 3 == 7',
-        'expected_result': True,
+        "title": "testing math precedence 1",
+        "filter_expression": "1 + 2 * 3 == 7",
+        "expected_result": True,
     },
     {
-        'title': 'testing basic math expressions 1',
-        'filter_expression': '1 + 2 * 3 + ( 4 + 5 ) / 3 == 5 + 5',
-        'expected_result': True,
+        "title": "testing basic math expressions 1",
+        "filter_expression": "1 + 2 * 3 + ( 4 + 5 ) / 3 == 5 + 5",
+        "expected_result": True,
     },
     {
-        'title': 'testing basic math expressions 2',
-        'filter_expression': '1 + 2 * 3 + ( 4 + 5 ) / 3 == 5 / 5',
-        'expected_result': False,
+        "title": "testing basic math expressions 2",
+        "filter_expression": "1 + 2 * 3 + ( 4 + 5 ) / 3 == 5 / 5",
+        "expected_result": False,
     },
     {
-        'title': 'testing modulo operator',
-        'filter_expression': '12 % 10 == 2',
-        'expected_result': True,
+        "title": "testing modulo operator",
+        "filter_expression": "12 % 10 == 2",
+        "expected_result": True,
     },
     {
-        'title': 'testing floordiv operator',
-        'filter_expression': '12 // 10 == 1',
-        'expected_result': True,
+        "title": "testing floordiv operator",
+        "filter_expression": "12 // 10 == 1",
+        "expected_result": True,
     },
     {
-        'title': 'testing logical expression precedence 1',
-        'filter_expression': '(True or True) and False',
-        'expected_result': False,
+        "title": "testing logical expression precedence 1",
+        "filter_expression": "(True or True) and False",
+        "expected_result": False,
     },
     {
-        'title': 'testing logical expression precedence 2',
-        'filter_expression': 'True or True and False',
-        'expected_result': True,
+        "title": "testing logical expression precedence 2",
+        "filter_expression": "True or True and False",
+        "expected_result": True,
     },
     {
-        'title': 'testing basic logical expressions 1',
-        'filter_expression': 'True and (True or False) and not False',
-        'expected_result': True,
+        "title": "testing basic logical expressions 1",
+        "filter_expression": "True and (True or False) and not False",
+        "expected_result": True,
     },
     {
-        'title': 'testing value assignment 1',
-        'filter_expression': 'A == 1',
-        'expected_result': True,
+        "title": "testing value assignment 1",
+        "filter_expression": "A == 1",
+        "expected_result": True,
     },
     {
-        'title': 'testing value assignment 1',
-        'filter_expression': '1 == A',
-        'expected_result': True,
+        "title": "testing value assignment 1",
+        "filter_expression": "1 == A",
+        "expected_result": True,
     },
     {
-        'title': 'testing keys with spaces',
-        'filter_expression': 'A + B == "C and D"',
-        'expected_result': True,
+        "title": "testing keys with spaces",
+        "filter_expression": 'A + B == "C and D"',
+        "expected_result": True,
     },
     {
-        'title': 'testing combined arithmatic and logical expressions',
-        'filter_expression': 'A + B == E or A + "C and D" == E and 2 == B',
-        'expected_result': True,
+        "title": "testing combined arithmatic and logical expressions",
+        "filter_expression": 'A + B == E or A + "C and D" == E and 2 == B',
+        "expected_result": True,
     },
 ]
 
+
 def test_filter_parser():
-    data = {
-        "A": 1,
-        "B": 2,
-        "C and D": 3,
-        "E": 4
-    }
+    data = {"A": 1, "B": 2, "C and D": 3, "E": 4}
 
     for expression_test in EXPRESSION_TESTS:
-        filter_fucntion = create_filter(expression_test['filter_expression'])
-        assert filter_fucntion is not None, f"{expression_test['title']}: filter_fucntion is None"
-        assert filter_fucntion(data) == expression_test['expected_result'], f"{expression_test['title']}: failed"
+        filter_fucntion = create_filter(expression_test["filter_expression"])
+        assert (
+            filter_fucntion is not None
+        ), f"{expression_test['title']}: filter_fucntion is None"
+        assert (
+            filter_fucntion(data) == expression_test["expected_result"]
+        ), f"{expression_test['title']}: failed"
 
 
 def test_filter_cli(tmp_csv_files):
@@ -161,15 +157,13 @@ def test_filter_cli(tmp_csv_files):
     output_csv = tmpdir.joinpath("output.csv")
     result = runner.invoke(
         cli,
-        ['--output', output_csv.name, 'A % 100 == 11', *filenames],
+        ["--output", output_csv.name, "A % 100 == 11", *filenames],
     )
     assert result.exit_code == 0
     with output_csv.open() as fh:
         reader = DictReader(fh)
         data = list(reader)
     assert len(data) == 3
-    assert data[0]['A'] == '111'
-    assert data[1]['A'] == '211'
-    assert data[2]['A'] == '311'
-
-
+    assert data[0]["A"] == "111"
+    assert data[1]["A"] == "211"
+    assert data[2]["A"] == "311"
