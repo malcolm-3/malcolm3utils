@@ -20,6 +20,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added the csv-diff tool
 
+### Fixed
+
+- Removed dev dependency on flake8-logging-format to fix flake8 failures
+
 ## [0.6.0] - 2026-02-04
 
 ### Fixed
