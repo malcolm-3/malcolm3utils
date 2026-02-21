@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     - merge -> csv-merge
   - Changed the default to be comma separated values
   - Default delimiter can be specified with the DELIMITER environment variable
+- Python version testing updated to remove 3.10 and add 3.13 and 3.14
 
 ### Added
 
