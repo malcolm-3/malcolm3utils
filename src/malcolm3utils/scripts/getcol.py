@@ -1,11 +1,11 @@
-#!/usr/bin/python
-
 import csv
 import sys
 from pathlib import Path
 from typing import List, Optional, Tuple
 
 import click
+
+from malcolm3utils.utils.csvio import csv_options
 
 from .. import __version__, __version_message__
 
@@ -18,19 +18,11 @@ or column ranges (e.g. 4-6 for columns 4 through 6 inclusive).
 
 If no file_to_read is specified, then input is read from stdin.
 """)
-@click.option(
-    "-d", "--delimiter", type=str, help="column delimiter (default=TAB)", default="\t"
-)
-@click.option(
-    "-o",
-    "--output-delimiter",
-    type=str,
-    help="output column delimiter (default=input delimiter)",
-)
+@csv_options()
 @click.version_option(__version__, message=__version_message__)
 @click.argument("column_spec", type=str, required=True)
 @click.argument("file_to_read", type=click.Path(exists=True), required=False)
-def getcol(
+def cli(
     column_spec: str,
     file_to_read: Optional[Path] = None,
     delimiter: str = "\t",
@@ -95,4 +87,4 @@ def _process_headers(
 
 
 if __name__ == "__main__":
-    getcol()  # pragma: no cover
+    cli()  # pragma: no cover

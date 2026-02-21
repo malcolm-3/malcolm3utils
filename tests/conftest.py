@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-TEST_INPUT = """A\tB\tC\tD
-1\t2\t3\t4
+TEST_INPUT = """A,B,C,D
+1,2,3,4
 """
 
 
@@ -33,11 +33,35 @@ TEST_INPUTS = {
 """,
 }
 
+DIFF_TEST_INPUTS = {
+    "file1.csv": """A,B,C and D,E,S,X
+211,212,213,214,c,True
+221,222,223,224,d,False
+231,232,233,234,e,True
+""",
+    "file2.csv": """A,B,C and D,F,S,X
+211,212,213,214,e,True
+321.1,222,223,224,f,True
+231,232,233,234,e,True
+""",
+}
+
 
 @pytest.fixture
 def tmp_csv_files(tmp_path: Path) -> list[Path]:
     tmp_file_list: list[Path] = []
     for fname, content in TEST_INPUTS.items():
+        fpath = tmp_path.joinpath(fname)
+        with fpath.open("w") as fh:
+            fh.write(content)
+        tmp_file_list.append(fpath)
+    return tmp_file_list
+
+
+@pytest.fixture
+def tmp_csv_diff_files(tmp_path: Path) -> list[Path]:
+    tmp_file_list: list[Path] = []
+    for fname, content in DIFF_TEST_INPUTS.items():
         fpath = tmp_path.joinpath(fname)
         with fpath.open("w") as fh:
             fh.write(content)

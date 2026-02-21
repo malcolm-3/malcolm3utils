@@ -1,6 +1,6 @@
 import os
 
-from malcolm3utils.utils.csv import read_csv_data, read_keyed_csv_data
+from malcolm3utils.utils.csvio import read_csv_data, read_keyed_csv_data
 
 
 def test_csv(tmp_csv_files):

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from click.testing import CliRunner
 
-from malcolm3utils.scripts.getcol import getcol
+from malcolm3utils.scripts.getcol import cli
 
 from .conftest import TEST_INPUT
 from .utils import os_independent_text_equals
@@ -14,7 +14,7 @@ def test_getcol(tmp_file: Path) -> None:
 
     # noinspection PyTypeChecker
     result = runner.invoke(
-        getcol,
+        cli,
         ["2", tmp_file_name],
     )
     assert result.exit_code == 0
@@ -22,31 +22,31 @@ def test_getcol(tmp_file: Path) -> None:
 
     # noinspection PyTypeChecker
     result = runner.invoke(
-        getcol,
+        cli,
         ["2,4", tmp_file_name],
     )
     assert result.exit_code == 0
-    assert os_independent_text_equals(result.output, "B\tD\n2\t4\n")
+    assert os_independent_text_equals(result.output, "B,D\n2,4\n")
 
     # noinspection PyTypeChecker
     result = runner.invoke(
-        getcol,
+        cli,
         ["2-4", tmp_file_name],
     )
     assert result.exit_code == 0
-    assert os_independent_text_equals(result.output, "B\tC\tD\n2\t3\t4\n")
+    assert os_independent_text_equals(result.output, "B,C,D\n2,3,4\n")
 
     # noinspection PyTypeChecker
     result = runner.invoke(
-        getcol,
+        cli,
         ["2,D", tmp_file_name],
     )
     assert result.exit_code == 0
-    assert os_independent_text_equals(result.output, "B\tD\n2\t4\n")
+    assert os_independent_text_equals(result.output, "B,D\n2,4\n")
 
     # noinspection PyTypeChecker
     result = runner.invoke(
-        getcol,
+        cli,
         ["-o", "|", "2,BAD-HEADER,4"],
         input=TEST_INPUT,
     )

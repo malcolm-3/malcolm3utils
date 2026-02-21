@@ -1,10 +1,42 @@
+import functools
 import logging  # noqa: A005
+import os
 from pathlib import Path
 from typing import Any, Callable, Hashable
 
+import click
 import pandas as pd
 
 logger = logging.getLogger(__name__)
+
+
+DEFAULT_DELIMITER = os.environ.get("DELIMITER", ",")
+
+
+def csv_options():  # type: ignore[no-untyped-def]
+    def inner(func):  # type: ignore[no-untyped-def]
+        @click.option(
+            "-d",
+            "--delimiter",
+            type=str,
+            help="column delimiter",
+            default=DEFAULT_DELIMITER,
+            show_default=True,
+            envvar="DELIMITER",
+        )
+        @click.option(
+            "-o",
+            "--output-delimiter",
+            type=str,
+            help="output column delimiter (default=input delimiter)",
+        )
+        @functools.wraps(func)
+        def newfunc(*args, **kwargs):  # type: ignore[no-untyped-def]
+            return func(*args, **kwargs)
+
+        return newfunc
+
+    return inner
 
 
 def read_keyed_csv_data(

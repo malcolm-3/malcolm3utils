@@ -119,6 +119,7 @@ replace = '__version__ = "{new_version}"'
 
 [tool.poetry.scripts]
 touch_latest = 'malcolm3utils.scripts.touch_latest:touch_latest'
-getcol = 'malcolm3utils.scripts.getcol:getcol'
-merge = 'malcolm3utils.scripts.merge:merge'
-filter = 'malcolm3utils.scripts.filter:cli'
+getcol = 'malcolm3utils.scripts.getcol:cli'
+csv-merge = 'malcolm3utils.scripts.csv_merge:cli'
+csv-filter = 'malcolm3utils.scripts.csv_filter:cli'
+csv-diff = 'malcolm3utils.scripts.csv_diff:cli'

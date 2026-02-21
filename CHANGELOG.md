@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Refactored csv tools
+  - Changed the names to identify them as csv tools
+    - filter -> csv-filter
+    - merge -> csv-merge
+  - Changed the default to be comma separated values
+  - Default delimiter can be specified with the DELIMITER environment variable
+
+### Added
+
+- Added the csv-diff tool
+
 ## [0.6.0] - 2026-02-04
 
 ### Fixed

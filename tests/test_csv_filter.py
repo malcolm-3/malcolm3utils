@@ -4,7 +4,7 @@ from csv import DictReader
 
 from click.testing import CliRunner
 
-from malcolm3utils.scripts.filter import cli
+from malcolm3utils.scripts.csv_filter import cli
 from malcolm3utils.utils.filter_parser import create_filter
 
 logger = logging.getLogger()
@@ -36,14 +36,14 @@ EXPECTED_HELP = """Usage: csv-filter [OPTIONS] FILTER_EXPRESSION csv_file
   filter a large number of files at once.
 
 Options:
-  --keep / --discard       keep or discard entries for which the expression is
-                           true (default=keep)
-  --output PATH            output file name
-  -d, --delimiter TEXT     column delimiter (default=COMMA)
-  --output-delimiter TEXT  output column delimiter (default=input delimiter)
-  --version                Show the version and exit.
-  -v, --verbosity LVL      Either CRITICAL, ERROR, WARNING, INFO or DEBUG.
-  --help                   Show this message and exit.
+  --keep / --discard           keep or discard entries for which the expression
+                               is true (default=keep)
+  --output PATH                output file name
+  -d, --delimiter TEXT         column delimiter  [default: ,]
+  -o, --output-delimiter TEXT  output column delimiter (default=input delimiter)
+  --version                    Show the version and exit.
+  -v, --verbosity LVL          Either CRITICAL, ERROR, WARNING, INFO or DEBUG.
+  --help                       Show this message and exit.
 """
 
 EXPRESSION_TESTS = [

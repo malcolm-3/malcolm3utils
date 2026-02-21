@@ -8,6 +8,7 @@ import click
 import click_logging
 
 from malcolm3utils import __version__, __version_message__
+from malcolm3utils.utils.csvio import csv_options
 from malcolm3utils.utils.filter_parser import create_filter
 
 logger = logging.getLogger()
@@ -68,18 +69,7 @@ logger = logging.getLogger()
     type=click.Path(exists=False),
     help="output file name",
 )
-@click.option(
-    "-d",
-    "--delimiter",
-    type=str,
-    help="column delimiter (default=COMMA)",
-    default=",",
-)
-@click.option(
-    "--output-delimiter",
-    type=str,
-    help="output column delimiter (default=input delimiter)",
-)
+@csv_options()
 @click.version_option(__version__, message=__version_message__)
 @click_logging.simple_verbosity_option(logger)
 def cli(  # noqa: C901

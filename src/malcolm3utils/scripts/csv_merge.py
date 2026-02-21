@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import csv
 import logging
 import sys
@@ -8,13 +6,17 @@ from typing import Dict, Iterable, List, Optional, TextIO
 import click
 import click_logging
 
+from malcolm3utils.utils.csvio import DEFAULT_DELIMITER, csv_options
+
 from .. import __version__, __version_message__
 
 logger = logging.getLogger(__name__)
 click_logging.basic_config(logger)
 
 
-@click.command(help="""
+@click.command(
+    "csv-merge",
+    help="""
 Merge the specified delimited files with column headings, joining entries with
 the same key field value.
 
@@ -33,17 +35,10 @@ header will be the header from the first file.
 If -k is used to specify alternative keys columns for subsequent files, but
 those files have a column with the same name as the output key column, that
 will be ignored.
-""")
+""",
+)
 @click_logging.simple_verbosity_option(logger)
-@click.option(
-    "-d", "--delimiter", type=str, help="column delimiter (default=TAB)", default="\t"
-)
-@click.option(
-    "-o",
-    "--output-delimiter",
-    type=str,
-    help="output column delimiter (default=input delimiter)",
-)
+@csv_options()
 @click.option(
     "--all-delimiter",
     type=str,
@@ -77,10 +72,10 @@ will be ignored.
 )
 @click.version_option(__version__, message=__version_message__)
 @click.argument("files_to_read", nargs=-1, type=click.File("r"), required=False)
-def merge(
+def cli(
     files_to_read: Iterable[TextIO] = (),
     key_column: str = "1",
-    delimiter: str = "\t",
+    delimiter: str = DEFAULT_DELIMITER,
     output_delimiter: Optional[str] = None,
     keep: str = "all",
     all_delimiter: str = ";",
@@ -88,10 +83,10 @@ def merge(
 ) -> None:
     if output_delimiter is None:
         output_delimiter = delimiter
-    key_column_list = key_column.split(",")
+    key_column_list = key_column.split(DEFAULT_DELIMITER)
     ignore_set = set()
     if ignore is not None:
-        ignore_set.update(ignore.split(","))
+        ignore_set.update(ignore.split(DEFAULT_DELIMITER))
 
     data: Dict[str, Dict[str, str]] = {}
     output_key = None
@@ -196,4 +191,4 @@ def _process_row(
 
 
 if __name__ == "__main__":
-    merge()  # pragma: no cover
+    cli()  # pragma: no cover

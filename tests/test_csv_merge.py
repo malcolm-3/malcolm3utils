@@ -6,7 +6,7 @@ from typing import List, TypedDict
 import pytest
 from click.testing import CliRunner
 
-from malcolm3utils.scripts.merge import merge
+from malcolm3utils.scripts.csv_merge import cli
 
 from .utils import os_independent_text_equals
 
@@ -20,7 +20,7 @@ class FileEntry(TypedDict):
     mtime: int
 
 
-EXPECTED_HELP = """Usage: merge [OPTIONS] [FILES_TO_READ]...
+EXPECTED_HELP = """Usage: csv-merge [OPTIONS] [FILES_TO_READ]...
 
   Merge the specified delimited files with column headings, joining entries with
   the same key field value.
@@ -43,7 +43,7 @@ EXPECTED_HELP = """Usage: merge [OPTIONS] [FILES_TO_READ]...
 
 Options:
   -v, --verbosity LVL           Either CRITICAL, ERROR, WARNING, INFO or DEBUG.
-  -d, --delimiter TEXT          column delimiter (default=TAB)
+  -d, --delimiter TEXT          column delimiter  [default: ,]
   -o, --output-delimiter TEXT   output column delimiter (default=input
                                 delimiter)
   --all-delimiter TEXT          when keep=="all" this will be the delimiter
@@ -65,90 +65,90 @@ Options:
   --help                        Show this message and exit.
 """
 
-FILE1 = """Key\tF1\tF2
-a\t1af1\t1af2
-b\t1bf1\t1bf2
-c\t1cf1\t
-d\t\t1df2
+FILE1 = """Key,F1,F2
+a,1af1,1af2
+b,1bf1,1bf2
+c,1cf1,
+d,,1df2
 """
 
-FILE2 = """AltKey\tKey\tF3\tF2
-d\ta\t2af3\t2af2
-c\tb\t2bf3\t2bf2
-b\tc\t2cf3\t
-a\td\t\t2df2
-e\te\t2ef3\t2ef2
+FILE2 = """AltKey,Key,F3,F2
+d,a,2af3,2af2
+c,b,2bf3,2bf2
+b,c,2cf3,
+a,d,,2df2
+e,e,2ef3,2ef2
 """
 
-FILE3 = """X\tY\tZ
-a\t3ay\t3az
-b\t3by\t3bz
+FILE3 = """X,Y,Z
+a,3ay,3az
+b,3by,3bz
 """
 
-FILE4 = """AltKey\tKey\tF3\tF2
-d\ta\t2af3\t2af2
-c\tb\t2bf3\t2bf2
-\t\tx\tx
-b\tc\t2cf3\t
-a\td\t\t2df2
-e\te\t2ef3\t2ef2
+FILE4 = """AltKey,Key,F3,F2
+d,a,2af3,2af2
+c,b,2bf3,2bf2
+,,x,x
+b,c,2cf3,
+a,d,,2df2
+e,e,2ef3,2ef2
 """
 
-FILE5 = """X\tY\tZ
-a\t3ay\t3az
-b\t3by\t5bz
+FILE5 = """X,Y,Z
+a,3ay,3az
+b,3by,5bz
 """
 
-EXPECTED_FIRST = """Key\tF1\tF2\tAltKey\tF3
-a\t1af1\t1af2\td\t2af3
-b\t1bf1\t1bf2\tc\t2bf3
-c\t1cf1\t\tb\t2cf3
-d\t\t1df2\ta\t
-e\t\t2ef2\te\t2ef3
+EXPECTED_FIRST = """Key,F1,F2,AltKey,F3
+a,1af1,1af2,d,2af3
+b,1bf1,1bf2,c,2bf3
+c,1cf1,,b,2cf3
+d,,1df2,a,
+e,,2ef2,e,2ef3
 """
 
-EXPECTED_ALL = """Key\tF1\tF2\tAltKey\tF3
-a\t1af1\t1af2;2af2\td\t2af3
-b\t1bf1\t1bf2;2bf2\tc\t2bf3
-c\t1cf1\t\tb\t2cf3
-d\t\t1df2;2df2\ta\t
-e\t\t2ef2\te\t2ef3
+EXPECTED_ALL = """Key,F1,F2,AltKey,F3
+a,1af1,1af2;2af2,d,2af3
+b,1bf1,1bf2;2bf2,c,2bf3
+c,1cf1,,b,2cf3
+d,,1df2;2df2,a,
+e,,2ef2,e,2ef3
 """
 
-EXPECTED_LAST = """Key\tF1\tF2\tAltKey\tF3
-a\t1af1\t2af2\td\t2af3
-b\t1bf1\t2bf2\tc\t2bf3
-c\t1cf1\t\tb\t2cf3
-d\t\t2df2\ta\t
-e\t\t2ef2\te\t2ef3
+EXPECTED_LAST = """Key,F1,F2,AltKey,F3
+a,1af1,2af2,d,2af3
+b,1bf1,2bf2,c,2bf3
+c,1cf1,,b,2cf3
+d,,2df2,a,
+e,,2ef2,e,2ef3
 """
 
-EXPECTED_ALL_COMMA = EXPECTED_ALL.replace("\t", ",")
+EXPECTED_ALL_TAB = EXPECTED_ALL.replace(",", "\t")
 
-EXPECTED_ALL_ALTKEY = """Key\tF1\tF2\tF3
-a\t1af1\t1af2;2df2\t
-b\t1bf1\t1bf2\t2cf3
-c\t1cf1\t2bf2\t2bf3
-d\t\t1df2;2af2\t2af3
-e\t\t2ef2\t2ef3
+EXPECTED_ALL_ALTKEY = """Key,F1,F2,F3
+a,1af1,1af2;2df2,
+b,1bf1,1bf2,2cf3
+c,1cf1,2bf2,2bf3
+d,,1df2;2af2,2af3
+e,,2ef2,2ef3
 """
 
-EXPECTED_ALL_IGNORE = """Key\tF2\tF3
-a\t1af2;2af2\t2af3
-b\t1bf2;2bf2\t2bf3
-c\t\t2cf3
-d\t1df2;2df2\t
-e\t2ef2\t2ef3
+EXPECTED_ALL_IGNORE = """Key,F2,F3
+a,1af2;2af2,2af3
+b,1bf2;2bf2,2bf3
+c,,2cf3
+d,1df2;2df2,
+e,2ef2,2ef3
 """
 
-EXPECTED_UNIQ = """X\tY\tZ
-a\t3ay\t3az
-b\t3by\t3bz;5bz
+EXPECTED_UNIQ = """X,Y,Z
+a,3ay,3az
+b,3by,3bz;5bz
 """
 
-EXPECTED_2FILE3_ALL = """X\tY\tZ
-a\t3ay;3ay\t3az;3az
-b\t3by;3by\t3bz;3bz
+EXPECTED_2FILE3_ALL = """X,Y,Z
+a,3ay;3ay,3az;3az
+b,3by;3by,3bz;3bz
 """
 
 EXPECTED_2FILE3_UNIQ = FILE3
@@ -194,7 +194,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check help output")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["--help"],
     )
     assert result.exit_code == 0
@@ -203,7 +203,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check without key")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         [file1, file2],
     )
     assert result.exit_code == 0
@@ -212,7 +212,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check with key")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "Key", file1, file2],
     )
     assert result.exit_code == 0
@@ -221,7 +221,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check without per file key")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "Key,AltKey", file1, file2],
     )
     assert result.exit_code == 0
@@ -230,7 +230,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check with key, keep==first")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "Key", "--keep", "first", file1, file2],
     )
     assert result.exit_code == 0
@@ -239,7 +239,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check with key, keep==last")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "Key", "--keep", "last", file1, file2],
     )
     assert result.exit_code == 0
@@ -247,22 +247,22 @@ def test_merge(tmp_files: List[Path]) -> None:
 
     logger.debug("check with key, reading stdin")
     # noinspection PyTypeChecker
-    result = runner.invoke(merge, ["-k", "Key", file1, "-"], input=FILE2)
+    result = runner.invoke(cli, ["-k", "Key", file1, "-"], input=FILE2)
     assert result.exit_code == 0
     assert os_independent_text_equals(result.output, EXPECTED_ALL)
 
     logger.debug("check with key, change output delimiter")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
-        ["-k", "Key", "-o", ",", file1, file2],
+        cli,
+        ["-k", "Key", "-o", "\t", file1, file2],
     )
     assert result.exit_code == 0
-    assert os_independent_text_equals(result.output, EXPECTED_ALL_COMMA)
+    assert os_independent_text_equals(result.output, EXPECTED_ALL_TAB)
 
     logger.debug("check with key, bad file")
     # noinspection PyTypeChecker
-    result = runner.invoke(merge, ["-k", "Key", file1, file3, file2], input=FILE2)
+    result = runner.invoke(cli, ["-k", "Key", file1, file3, file2], input=FILE2)
     assert result.exit_code == 0
     output_lines = result.output.split("\n")
     stderr_line = output_lines.pop(0)
@@ -272,7 +272,7 @@ def test_merge(tmp_files: List[Path]) -> None:
 
     logger.debug("check with key, bad row")
     # noinspection PyTypeChecker
-    result = runner.invoke(merge, ["-k", "Key", file1, file4], input=FILE2)
+    result = runner.invoke(cli, ["-k", "Key", file1, file4], input=FILE2)
     assert result.exit_code == 0
     output_lines = result.output.split("\n")
     stderr_line = output_lines.pop(0)
@@ -281,7 +281,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     assert stderr_line.startswith("warning: No key value found for line 4")
 
     logger.debug("check with key, empty file")
-    result = runner.invoke(merge, ["-k", "Key", file1, "-", file2], input="")
+    result = runner.invoke(cli, ["-k", "Key", file1, "-", file2], input="")
     assert result.exit_code == 0
     output_lines = result.output.split("\n")
     stderr_line = output_lines.pop(0)
@@ -292,7 +292,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check with key, ignore")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "Key", "-I", "F1,AltKey", file1, file2],
     )
     assert result.exit_code == 0
@@ -301,7 +301,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check keep all with duplicate file")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "X", "--keep", "all", file3, file3],
     )
     assert result.exit_code == 0
@@ -310,7 +310,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check keep uniq with duplicate file")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "X", "--keep", "uniq", file3, file3],
     )
     assert result.exit_code == 0
@@ -319,7 +319,7 @@ def test_merge(tmp_files: List[Path]) -> None:
     logger.debug("check keep uniq")
     # noinspection PyTypeChecker
     result = runner.invoke(
-        merge,
+        cli,
         ["-k", "X", "--keep", "uniq", file3, file5],
     )
     assert result.exit_code == 0
