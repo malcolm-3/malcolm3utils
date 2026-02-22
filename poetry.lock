@@ -577,21 +577,6 @@ eradicate = ">=2.0,<3.0"
 flake8 = ">5"
 
 [[package]]
-name = "flake8-logging-format"
-version = "2024.24.12"
-description = ""
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "flake8_logging_format-2024.24.12-py3-none-any.whl", hash = "sha256:7d93c2107354b10a05b1a0d8ccd3a9bfb793aee108007765114c958a7541d674"},
-]
-
-[package.extras]
-lint = ["flake8"]
-test = ["PyHamcrest", "pytest", "pytest-cov"]
-
-[[package]]
 name = "ghp-import"
 version = "2.1.0"
 description = "Copy your docs directly to the gh-pages branch."
@@ -2205,4 +2190,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11, <4.0"
-content-hash = "5286c40f8ecf41f6e8f067410a26eb955bbd8eed396cac1286832a70a78986e1"
+content-hash = "c60c3a7bbaeb613890c22b89a266829c1b4e1deaac3aaf36c28c62162ae089b6"
