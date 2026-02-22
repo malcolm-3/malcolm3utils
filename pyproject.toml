@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "malcolm3utils"
-version = "0.6.0"
+version = "0.7.0"
 description = "Collection of Utility Scripts and Packages"
 authors = [
     "Malcolm E. Davis <mnjjunk@comcast.net>",
