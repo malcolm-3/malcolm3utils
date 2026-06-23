@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - added the ccli2chpro script
 
-### Updated
+### Security
 
 - updated dependency versions
 

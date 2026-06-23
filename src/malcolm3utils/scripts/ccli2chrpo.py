@@ -1,11 +1,11 @@
 import logging
 import re
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import click
 import click_logging
-import enchant
+import enchant  # type: ignore
 
 from malcolm3utils import __version__, __version_message__
 
@@ -18,15 +18,15 @@ d = enchant.Dict("en_US")
     "ccli2chpro",
     help="""
     Convert a CCLI chord text to chordpro format.
-    
+
     Get the 'Chords' view of your song in Song Select
     set to the desired key, and select and copy all of the text
     below the tool bar, i.e. from the title through to your CCLI license number.
     Paste this into a text file and run this command using that file as the input_file.
-    
+
     The output is written to that file with the extension changed to chordpro.
-    
-    This script attempts to 'fix' everything, but inevitably there will be 
+
+    This script attempts to 'fix' everything, but inevitably there will be
     things it gets wrong, so plan on checking the output for correctness.
     No guarantees are given or implied.
     """,
@@ -41,8 +41,8 @@ d = enchant.Dict("en_US")
     required=True,
 )
 def cli(
-        *_,
-        input_files: Iterable[click.Path] = (),
+    *_: Any,
+    input_files: Iterable[click.Path] = (),
 ) -> None:
     for input_file in input_files:
         try:
@@ -53,7 +53,9 @@ def cli(
 
 
 comment_regex = re.compile(r"Intro|Verse|Verse \d+|Chorus|Chorus \d+|Bridge")
-chord_regex = re.compile(r"([A-G](?:b|#)?m?(?:2|4|7|sus2|sus4|maj7)?(?:/[A-G](?:b|#)?)?)(\w*)")
+chord_regex = re.compile(
+    r"([A-G](?:b|#)?m?(?:2|4|7|sus2|sus4|maj7)?(?:/[A-G](?:b|#)?)?)(\w*)"
+)
 
 
 def chord_replace(matchobj: re.Match) -> str:
@@ -64,10 +66,10 @@ def chord_replace(matchobj: re.Match) -> str:
     return f"{chord}{word}"
 
 
-def process(input_file: Path) -> None:
+def process(input_file: Path) -> None:  # noqa: C901
     logger.debug("Processing %s", input_file)
-    with input_file.open(mode="r") as f:
-        input_lines = [l.strip() for l in f.readlines()]
+    with input_file.open(mode="r") as fh:
+        input_lines = [line.strip() for line in fh.readlines()]
 
     logger.debug("...read %d lines", len(input_lines))
     output_lines = []
@@ -75,7 +77,8 @@ def process(input_file: Path) -> None:
     logger.debug("...processing title line")
     line = input_lines[0]
     if "SongSelect logo" not in line:
-        raise ValueError("First line does not contain 'SongSelect logo'")
+        msg = "First line does not contain 'SongSelect logo'"
+        raise ValueError(msg)
     line = line.replace("SongSelect logo", "")
     line = f"{{title: {line}}}"
     output_lines.append(line)
@@ -84,7 +87,7 @@ def process(input_file: Path) -> None:
     line = input_lines[1]
     artists = line.split(" | ")
     if len(artists) > 1:
-        artists[-1] = f'and {artists[-1]}'
+        artists[-1] = f"and {artists[-1]}"
     if len(artists) > 2:
         sep = ", "
     else:
@@ -95,7 +98,8 @@ def process(input_file: Path) -> None:
     logger.debug("...processing based-on line")
     line = input_lines[2]
     if "based on" not in line:
-        raise ValueError("Third line does not contain 'based on'")
+        msg = "Third line does not contain 'based on'"
+        raise ValueError(msg)
     line = line.strip("()")
     line = f"{{meta: {line}}}"
     output_lines.append(line)
@@ -103,7 +107,8 @@ def process(input_file: Path) -> None:
     logger.debug("...processing key line")
     line = input_lines[3]
     if not line.startswith("Key"):
-        raise ValueError("Fourth line does not start with 'Key'")
+        msg = "Fourth line does not start with 'Key'"
+        raise ValueError(msg)
     for k, v in [y.split(" - ") for y in line.split(" | ")]:
         output_lines.append(f"{{{k.lower()}: {v}}}")
 
@@ -145,14 +150,15 @@ def process(input_file: Path) -> None:
 
     logger.debug("...checkig that ccli-song line is present")
     if not found_ccli_song_line:
-        raise ValueError("Could not locate 'CCLI Song #' line")
+        msg = "Could not locate 'CCLI Song #' line"
+        raise ValueError(msg)
 
     logger.debug("...checkig that ccli-license line is present")
     if not found_ccli_license_line:
-        raise ValueError("Could not locate 'CCLI License #' line")
+        msg = "Could not locate 'CCLI License #' line"
+        raise ValueError(msg)
 
     logger.debug("...writing the output file")
     output_file = input_file.with_suffix(".chordpro")
-    with open(output_file, "w") as f:
-        f.write("\n".join(output_lines))
-
+    with open(output_file, "w") as fh:
+        fh.write("\n".join(output_lines))
