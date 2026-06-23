@@ -126,7 +126,21 @@ def tmp_csv_dicts() -> list[list[dict[str, int]]]:
 
 @pytest.fixture
 def tmp_ccli_files(tmp_path: Path) -> list[Path]:
-    tmp_ccli_file = tmp_path.joinpath("ccli.txt")
-    with tmp_ccli_file.open("w") as fh:
+    paths = [tmp_path]
+    ccli_file = tmp_path.joinpath("ccli.txt")
+    with ccli_file.open("w") as fh:
         fh.write(example_ccli)
-    return [tmp_path, tmp_ccli_file]
+    paths.append(ccli_file)
+
+    input_lines = example_ccli.splitlines()
+    chunks = {i: i for i in range(5)}
+    chunks[6] = -1
+    for i, last in chunks.items():
+        bad_ccli_file = tmp_path.joinpath(f"bad_ccli_{i}.txt")
+        with bad_ccli_file.open("w") as fh:
+            fh.write("\n".join(input_lines[:last]))
+            for j in range(10):
+                fh.write("\n")
+        paths.append(bad_ccli_file)
+
+    return paths

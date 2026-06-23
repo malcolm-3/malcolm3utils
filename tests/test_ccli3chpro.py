@@ -19,7 +19,7 @@ EXPECTED_HELP = """Usage: ccli2chpro [OPTIONS] input_file
 
   The output is written to that file with the extension changed to chordpro.
 
-  This script attempts to 'fix' everything, but inevitably there will be  things
+  This script attempts to 'fix' everything, but inevitably there will be things
   it gets wrong, so plan on checking the output for correctness. No guarantees
   are given or implied.
 
@@ -67,9 +67,18 @@ It is a [G/B]firm foundation
 And I will [G/B]not be shaken  ([C])   (Last time)
 """
 
+EXPECTED_ERROR = [
+    "First line does not contain 'SongSelect logo'",
+    "Third line does not contain 'based on'",
+    "Third line does not contain 'based on'",
+    "Fourth line does not start with 'Key'",
+    "Could not locate 'CCLI Song #' line",
+    "Could not locate 'CCLI License #' line",
+]
+
 
 def test_ccli2chrpo_cli(tmp_ccli_files):
-    tmpdir, input_file = tmp_ccli_files
+    tmpdir, input_file, *bad_input_files = tmp_ccli_files
     output_file = input_file.with_suffix(".chordpro")
     assert tmpdir.exists()
     assert input_file.exists()
@@ -95,3 +104,11 @@ def test_ccli2chrpo_cli(tmp_ccli_files):
     assert output_file.exists()
     with output_file.open("r") as fh:
         assert fh.read() == EXPECTED_OUTPUT
+
+    for i, bad_input_file in enumerate(bad_input_files):
+        result = runner.invoke(
+            cli,
+        [bad_input_file.name],
+        )
+        assert result.exit_code == 0
+        assert result.stdout == f"Exception '{EXPECTED_ERROR[i]}' encountered processing {bad_input_file.name}: skipping file.\n"
