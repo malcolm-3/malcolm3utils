@@ -15,7 +15,7 @@ jobs:
           app-id: ${{ vars.ACTION_APP_ID }}
           private-key: ${{ secrets.ACTION_APP_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:

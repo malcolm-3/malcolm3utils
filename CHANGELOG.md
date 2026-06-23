@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - switching from `mkdocs` to `zensical`
 - ccli2chpro deals with '|' characters
+- updated actions to use actions/checkout@v7
 
 ### Fixed
 
