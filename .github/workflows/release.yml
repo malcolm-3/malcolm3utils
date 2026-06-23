@@ -27,4 +27,4 @@ jobs:
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish --build --no-interaction
       - name: Deploy docs
-        run: poetry run mkdocs gh-deploy --force
+        run: poetry run zensical build

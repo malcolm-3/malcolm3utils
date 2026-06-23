@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- switching from `mkdocs` to `zensical`
+- ccli2chpro deals with '|' characters
+
+### Fixed
+
+- corrected package name `malcolm3utils.scripts.ccli2chpro`
+
 ## [0.8.1] - 2026-06-23
 
 ### Fixed

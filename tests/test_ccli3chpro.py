@@ -3,7 +3,7 @@ import os
 
 from click.testing import CliRunner
 
-from malcolm3utils.scripts.ccli2chrpo import cli
+from malcolm3utils.scripts.ccli2chpro import cli
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG)
@@ -40,7 +40,7 @@ EXPECTED_OUTPUT = """{title: Build My Life}
 {meta: ccli license 57980}
 
 {comment: Intro}
-|  [G]          |  [C2]         |  [G/B]         |  [C2]         |
+[|]  [G]          [|]  [C2]         [|]  [G/B]         [|]  [C2]         [|]
 
 {comment: Verse 1}
 [G]     Worthy of ev'ry [C2]song we could ever sing

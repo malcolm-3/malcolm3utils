@@ -140,7 +140,9 @@ def process(input_file: Path) -> None:  # noqa: C901
                 output_lines.append(f"{{comment: {line}}}")
             else:
                 logger.debug("......regular lyric line")
-                output_lines.append(chord_regex.sub(chord_replace, line))
+                output_lines.append(
+                    chord_regex.sub(chord_replace, line).replace("|", "[|]")
+                )
         elif line.startswith("CCLI License # "):
             logger.debug("...found the ccli-license line")
             found_ccli_license_line = True

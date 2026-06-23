@@ -65,6 +65,7 @@ pyupgrade = "*"
 tryceratops = "*"
 setuptools = "*"
 pandas-stubs = "^3.0.0.260204"
+zensical = "^0.0.46"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -124,4 +125,4 @@ getcol = 'malcolm3utils.scripts.getcol:cli'
 csv-merge = 'malcolm3utils.scripts.csv_merge:cli'
 csv-filter = 'malcolm3utils.scripts.csv_filter:cli'
 csv-diff = 'malcolm3utils.scripts.csv_diff:cli'
-ccli2chpro = 'malcolm3utils.scripts.ccli2chrpo:cli'
+ccli2chpro = 'malcolm3utils.scripts.ccli2chpro:cli'
