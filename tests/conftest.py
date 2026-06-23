@@ -46,6 +46,46 @@ DIFF_TEST_INPUTS = {
 """,
 }
 
+example_ccli = """Build My LifeSongSelect logo
+Brett Younker | Karl Martin | Kirby Kaple | Matt Redman | Pat Barrett
+(based on the recording by Pat Barrett)
+Key - G | Tempo - 70 | Time - 4/4 
+
+Intro
+|  G          |  C2         |  G/B         |  C2         |  
+
+Verse 1
+G     Worthy of ev'ry C2song we could ever sing
+G/B     Worthy of all the C2praise we could ever bring
+G     Worthy of ev'ry C2breath we could ever breathe
+We live for G/BYou         C2 
+
+Verse 2
+G     Jesus the name a - C2bove ev'ry other name
+G/B     Jesus the only C2one who could ever save
+G     Worthy of ev'ry C2breath we could ever breathe
+We live for G/BYou,    we live for C2You
+
+Chorus
+C2Holy there is no one Amlike You
+There is none be - G/Dside You open up my Em7eyes in wonder 
+And C2show me who You are and Amfill me 
+With Your heart and G/Dlead me in Your love to Em7those around me
+
+Bridge
+CI will build my Dlife upon Your Em7love 
+It is a G/Bfirm foundation
+CI will put my Dtrust in You a - Em7lone 
+And I will G/Bnot be shaken  (C)   (Last time) 
+
+CCLI Song # 7070345
+
+© 2016 Kaple MusicCapitol CMG GenesisHousefires SoundsSaid And Done Musicsixsteps MusicThankyou Music LtdVamos Publishingworshiptogether.com songsMartin, Karl AndrewBethel Music Publishing
+For use solely with the SongSelect® Terms of Use. All rights reserved. www.ccli.com
+
+CCLI License # 57980
+"""
+
 
 @pytest.fixture
 def tmp_csv_files(tmp_path: Path) -> list[Path]:
@@ -82,3 +122,10 @@ def tmp_csv_dicts() -> list[list[dict[str, int]]]:
             data.append(d)
         tmp_dict_list.append(data)
     return tmp_dict_list
+
+@pytest.fixture
+def tmp_ccli_files(tmp_path: Path) -> list[Path]:
+    tmp_ccli_file = tmp_path.joinpath("ccli.txt")
+    with tmp_ccli_file.open("w") as fh:
+        fh.write(example_ccli)
+    return [tmp_path, tmp_ccli_file]

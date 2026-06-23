@@ -1669,6 +1669,20 @@ files = [
 ]
 
 [[package]]
+name = "pyenchant"
+version = "3.3.0"
+description = "Python bindings for the Enchant spellchecking system"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "pyenchant-3.3.0-py3-none-any.whl", hash = "sha256:3da00b1d01314d85aac733bb997415d7a3e875666dc81735ddcf320aa36b7a70"},
+    {file = "pyenchant-3.3.0-py3-none-win32.whl", hash = "sha256:1d55e075645a6edbb3c590fb42f9e02b4d455e4affe28a2227d5cb6d4868e626"},
+    {file = "pyenchant-3.3.0-py3-none-win_amd64.whl", hash = "sha256:04a5bd0e022ebe2e8c6d9e498ec3d650602e264ec5486e9c6a1b7f99c9507c49"},
+    {file = "pyenchant-3.3.0.tar.gz", hash = "sha256:825288246b5debc9436f91967650974ef0d5636458502619e322c476f1283891"},
+]
+
+[[package]]
 name = "pyflakes"
 version = "3.4.0"
 description = "passive checker of Python programs"
@@ -2260,4 +2274,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11, <4.0"
-content-hash = "c60c3a7bbaeb613890c22b89a266829c1b4e1deaac3aaf36c28c62162ae089b6"
+content-hash = "84337adb94c8f4b4cd49d697115149d6f19ed2f2ad3061f3cb7ad441eed7dd0b"
