@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-06-23
+
 ### Fixed
 
 - correctly added new script ccli2chpro to pyproject.toml
@@ -184,7 +186,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - script to touch (and create if necessary) a file
     with its modification date set to the latest date found in the specified dicrectories
 
-[Unreleased]: https://github.com/malcolm-3/malcolm3utils/compare/0.8.0...master
+[Unreleased]: https://github.com/malcolm-3/malcolm3utils/compare/0.8.1...master
+[0.8.1]: https://github.com/malcolm-3/malcolm3utils/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/malcolm-3/malcolm3utils/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/malcolm-3/malcolm3utils/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/malcolm-3/malcolm3utils/compare/0.5.7...0.6.0
