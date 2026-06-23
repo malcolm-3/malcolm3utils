@@ -139,7 +139,7 @@ def tmp_ccli_files(tmp_path: Path) -> list[Path]:
         bad_ccli_file = tmp_path.joinpath(f"bad_ccli_{i}.txt")
         with bad_ccli_file.open("w") as fh:
             fh.write("\n".join(input_lines[:last]))
-            for j in range(10):
+            for _ in range(10):
                 fh.write("\n")
         paths.append(bad_ccli_file)
 

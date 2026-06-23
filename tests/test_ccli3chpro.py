@@ -108,7 +108,10 @@ def test_ccli2chrpo_cli(tmp_ccli_files):
     for i, bad_input_file in enumerate(bad_input_files):
         result = runner.invoke(
             cli,
-        [bad_input_file.name],
+            [bad_input_file.name],
         )
         assert result.exit_code == 0
-        assert result.stdout == f"Exception '{EXPECTED_ERROR[i]}' encountered processing {bad_input_file.name}: skipping file.\n"
+        assert (
+            result.stdout
+            == f"Exception '{EXPECTED_ERROR[i]}' encountered processing {bad_input_file.name}: skipping file.\n"
+        )
